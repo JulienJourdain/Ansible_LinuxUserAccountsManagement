@@ -1,5 +1,7 @@
 # Manage linux users with Ansible
 
+It has never been easier to deploy local user accounts on linux servers !
+
 ## Prerequisites
 
 This set of playbooks and scripts needs you to use the "users" YAML dictionary in the `params.yml` file, which will be used to manage users on one or more linux servers.
