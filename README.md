@@ -40,6 +40,10 @@ Users dictionary is based on Ansible's user core module. For my needs, I just in
 
 Feel free to adapt it as you needs ;-)
 
+Don't worry about password fields, they will be automatically generated !
+
+NB: For my needs, I had to use expires date but you can delete / ignore it.
+
 ## How to use the set
 
 ```bash
@@ -50,4 +54,4 @@ Or
 ansible-playbook global.yml -i inventories/production -u ssh_username -k -K
  ```
 
-NB: For my needs, I had to use expires date but you can delete / ignore it.
+Once the playbook has been successfully executed, an email will be sent to the user with his credentials.
