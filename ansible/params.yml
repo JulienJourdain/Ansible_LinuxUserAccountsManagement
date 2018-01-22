@@ -1,0 +1,6 @@
+users:
+- clear_password: qo8GtSHeSbb6XTFs
+  email: foo@foo.bar
+  encrypted_password: $6$salt1234$7KHIlOsbII4jXdzNQGygKyJIL01IufiC6lZENGzu.SgJ0vGsj6lbSaiTPbpyOG2Tgt3PhrUAdDCpc7ejqCiOL0
+  name: foo
+  state: present

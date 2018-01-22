@@ -1,0 +1,32 @@
+<html>
+<head>
+	<style>
+		body{font-family: 'Arial', sans-serif; font-size:13px; color:#666666;}
+		.spectxt{font-weight: bold; color: #00bbdf; border-bottom: 1px dotted; display: inline-block;}
+	</style>
+</head>
+<body>
+	Hi,
+	<p>As agreed, please find below your credentials for connection to RENATER's servers :</p>
+	<ul>
+		<li>
+      <b>Username :</b> {{ item.name }}
+    </li>
+    <li>
+      <b>Password :</b> {{ item.clear_password }}
+    </li>
+		<li>
+			<b>Servers :</b>
+			<ul>
+				<li>{{ play_hosts }}</li>
+			</ul>
+		</li>
+		{% if date.stdout is defined %}
+		<li>
+			<b>Expiration date :</b> {{ date.stdout }}
+		</li>
+		{% endif %}
+	</ul>
+	<p>Regards,<br />Cloud Team</p>
+</body>
+</html>

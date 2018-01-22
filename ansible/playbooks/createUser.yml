@@ -1,0 +1,55 @@
+# Check of the user's presence
+- shell: grep -ic {{ item.name }} /etc/passwd
+  ignore_errors: true
+  register: is_user_present
+
+# Generate date + 2 months in epoch linux format
+- shell: date --date='+2 months' +%s
+  delegate_to: localhost
+  register: epoch_date
+  when: is_user_present.stdout == "0"
+
+# Convert epoch date to human date
+- shell: date -d @{{ epoch_date.stdout }}
+  delegate_to: localhost
+  register: date
+  when: epoch_date|success and not epoch_date|skipped
+
+# Manage system's users
+- user:
+    name: "{{ item.name }}"
+    password: "{{ item.encrypted_password|default(omit) }}"
+    comment: "{{ item.comment|default(omit) }}"
+    uid: "{{ item.uid|default(omit) }}"
+    group: "{{ item.group|default(omit) }}"
+    groups: "{{ item.groups|default(omit) }}"
+    shell: "{{ item.shell|default(omit) }}"
+    expires: "{{ epoch_date.stdout|default(omit) }}"
+    state: "{{ item.state }}"
+  become: true
+  register: user
+
+# Mailing
+- block:
+
+  # Generate mail from Jinja2 template
+  - template:
+      src: '{% if item.state == "absent" %}templates/mail_user_deletion.j2{% else %}templates/mail_user_creation.j2{% endif %}'
+      dest: '/tmp/credentials.html'
+
+  # Send credentials informatoons to each user
+  - mail:
+      subject: "Credentials"
+      body: "{{ lookup('file', '/tmp/credentials.html') }}"
+      to: "{{ item.email }}"
+      bcc: team@company.com
+      charset: utf8
+      subtype: html
+
+  # Delete credentials file
+  - file:
+      path: /tmp/credentials.html
+      state: absent
+
+  delegate_to: localhost
+  when: user|changed

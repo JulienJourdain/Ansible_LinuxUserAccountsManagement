@@ -1,0 +1,16 @@
+<html>
+<head>
+	<style>
+		body{font-family: 'Arial', sans-serif; font-size:13px; color:#666666;}
+		.spectxt{font-weight: bold; color: #00bbdf; border-bottom: 1px dotted; display: inline-block;text-transform: uppercase;}
+	</style>
+</head>
+<body>
+	Hi,
+	<p>As agreed, user <span class="spectxt">{{ item.name }}</span> has been deleted successfully from below servers :</p>
+	<ul>
+		<li>{{ play_hosts }}</li>
+	</ul>
+	<p>Regards,<br />Cloud Team</p>
+</body>
+</html>

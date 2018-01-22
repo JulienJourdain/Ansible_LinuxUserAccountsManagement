@@ -1,0 +1,23 @@
+---
+- hosts: servers
+  gather_facts: false # Useless for our needs
+  tasks:
+
+    # Ensure every users got password
+    - shell: "python ../scripts/generatePassword.py"
+      delegate_to: localhost
+      run_once: true
+
+    # Load parameters
+    - include_vars: params.yml
+      run_once: true
+      register: load_params
+
+    # Create user(s)
+    - block:
+
+      - include: playbooks/createUser.yml
+        with_items:
+          - "{{ users }}"
+
+      when: load_params|success
